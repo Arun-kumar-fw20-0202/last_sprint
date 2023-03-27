@@ -8,6 +8,8 @@ const { auth } = require("./middlewares/auth");
 const { userRouter } = require("./routes/users");
 const { postRouter } = require("./routes/post");
 
+app.user(cors());
+
 app.use("/users", userRouter);
 app.use(auth);
 app.use("/post", postRouter);
