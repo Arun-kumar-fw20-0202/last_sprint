@@ -9,18 +9,19 @@ const auth = require("../middlewares/auth");
 // postRouter.use(auth);
 
 // Get posts
-postRouter.post("/", async (req, res) => {
+postRouter.get("/", async (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decoded = jwt.verify(token, "masai");
 
   let query = req.query;
-  let notes = await NoteModel.find({ userID: decoded.userID });
+  let notes = await NoteModel.find({ userID: decoded.userID, query });
   res.status(200).send(notes);
 });
 
 // Add Post
 postRouter.post("/add", async (req, res) => {
   const payload = req.body;
+  console.log(payload);
   try {
     const post = await PostModel(payload);
     res.status(200).send({ msg: "Post has been added" });
